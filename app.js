@@ -31,8 +31,8 @@ function mainMenu(person, people){
     alert("Could not find that individual.");
     return app(people); // restart
   }
-	if (person === "multiple") {
-		alert("Multiple results found. Please narrow your search.");
+	if (Array.isArray(person)) {
+		displayPeople(person);
 		return app(people);
 	}
 
@@ -155,18 +155,9 @@ return filteredPeople;
 
 // alerts a list of people
 function displayPeople(people){
-  alert(people.map(function(person){
-    return person.firstName + " " + person.lastName;
-  }).join("\n"));
-}
-
-function displayPerson(person){
-  // print all of the information about a person:
-  // height, weight, age, name, occupation, eye color.
-  var personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
-  // TODO: finish getting the rest of the information to display
-  alert(personInfo);
+  alert("Multiple results found:\n\n" + people.map(function(person){
+    return person.firstName + " " + person.lastName + ":\n ID Number: " + person.id;
+  }).join("\n\n"));
 }
 
 // function that prompts and validates user input
@@ -192,7 +183,7 @@ function checkSingleResult(personArr) {
 		return personArr[0];
 	}
 	else if (personArr.length > 1) {
-		return "multiple";
+		return personArr;
 	}
 	else {
 		return undefined;
