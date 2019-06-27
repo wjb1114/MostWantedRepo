@@ -83,7 +83,7 @@ function searchByTrait(people){ // need only 2 but can search up to 5
     var eyeColor = promptFor("What is the person's eye color?", chars);
     filteredPeople = filteredPeople.filter(function(person){
       if (person.eyeColor == eyeColor){
-       return true ;    
+       return true ;
       }
       else {
         return false;
@@ -93,10 +93,10 @@ function searchByTrait(people){ // need only 2 but can search up to 5
 
   if(heightYesNo == 'yes'){
     var height = promptFor("What is the person's height?", chars);
-      
+
     filteredPeople = filteredPeople.filter(function(person){
       if (person.height == height){
-      return true ;    
+      return true ;
       }
       else {
         return false;
@@ -106,10 +106,10 @@ function searchByTrait(people){ // need only 2 but can search up to 5
 
   if(weightYesNo == 'yes'){
     var weight = promptFor("What is the person's weight?", chars);
-      
+
     filteredPeople = filteredPeople.filter(function(person){
       if (person.weight == weight){
-      return true ;    
+      return true ;
       }
       else {
         return false;
@@ -119,10 +119,10 @@ function searchByTrait(people){ // need only 2 but can search up to 5
 
   if(occupationYesNo == 'yes'){
     var occupation = promptFor("What is the person's occupation?", chars);
-      
+
     filteredPeople = filteredPeople.filter(function(person){
       if (person.occupation == occupation){
-      return true ;    
+      return true ;
       }
       else {
         return false;
@@ -132,10 +132,10 @@ function searchByTrait(people){ // need only 2 but can search up to 5
 
   if(ageYesNo == 'yes'){
     var age = promptFor("What is the person's age?", chars);
-      
+
     filteredPeople = filteredPeople.filter(function(person){
       if (person.age == age){
-      return true ;    
+      return true ;
       }
       else {
         return false;
@@ -237,6 +237,7 @@ function displayInfo(person, people) {
 		spouseSingle = checkSingleResult(foundSpouse)
 		spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
 	}
+	spouseString += "\n";
 	alert (	"ID: " + person.id + "\n" +
 					"Name: " + person.firstName + " " + person.lastName + "\n" +
 					"Gender: " + person.gender + "\n" +
@@ -246,5 +247,27 @@ function displayInfo(person, people) {
 					"Eye Color: " + person.eyeColor + "\n" +
 					"Occupation: " + person.occupation + "\n" +
 					parentsString +
-					spouseString)
+					spouseString +
+					"Age: " + person.age)
 }
+
+function getAge(people) {
+	let dayToday = new Date().getDate();
+	let monthToday = new Date().getMonth();
+	let yearToday = new Date().getFullYear();
+	for (let i = 0; i < people.length; i++) {
+		let birthDate = people[i].dob;
+		let birthDateSplit = people[i].dob.split("/");
+		birthDateSplit[0] -= 1;
+		let splitDiff = [];
+		splitDiff[0] = monthToday - birthDateSplit[0];
+		splitDiff[1] = dayToday - birthDateSplit[1];
+		splitDiff[2] = yearToday - birthDateSplit[2];
+		if (splitDiff[0] < 0 || (splitDiff[0] == 0 && splitDiff[1] < 0)) {
+			splitDiff[2]--;
+		}
+		people[i].age = splitDiff[2];
+	}
+}
+
+getAge(data);
