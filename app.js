@@ -13,6 +13,7 @@ function app(people){
     case 'no':
     // TODO: search by traits
     var foundPerson = searchByTrait(data);
+		mainMenu(checkSingleResult(foundPerson), data);
     break;
     default:
     app(people); // restart app
@@ -30,6 +31,10 @@ function mainMenu(person, people){
     alert("Could not find that individual.");
     return app(people); // restart
   }
+	if (person === "multiple") {
+		alert("Multiple results found. Please narrow your search.");
+		return app(people);
+	}
 
   var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
@@ -144,7 +149,7 @@ function searchByTrait(people){ // need only 2 but can search up to 5
   }
 
 
-console.log(filteredPeople);
+return filteredPeople;
 
 }
 
@@ -185,6 +190,9 @@ function chars(input){
 function checkSingleResult(personArr) {
 	if (personArr.length === 1) {
 		return personArr[0];
+	}
+	else if (personArr.length > 1) {
+		return "multiple";
 	}
 	else {
 		return undefined;
