@@ -12,6 +12,7 @@ function app(people){
     break;
     case 'no':
     // TODO: search by traits
+    var foundPerson = searchByTrait(data);
     break;
     default:
     app(people); // restart app
@@ -65,6 +66,85 @@ function searchByName(people){
   })
   // TODO: find the person using the name they entered
   return foundPerson;
+}
+
+function searchByTrait(people){ // need only 2 but can search up to 5
+  let filteredPeople = people;
+
+  var heightYesNo = promptFor("Do you know the person's height?", yesNo);
+  var weightYesNo = promptFor("Do you know the person's weight?", yesNo);
+  var eyeColorsYesNo = promptFor("Do you know the person's eye color?", yesNo);
+  var occupationYesNo = promptFor("Do you know the person's occupation?", yesNo)
+  var ageYesNo = promptFor("Do you know the person's age?", yesNo);
+
+
+  if(eyeColorsYesNo == 'yes'){
+    var eyeColor = promptFor("What is the person's eye color?", chars);
+    filteredPeople = filteredPeople.filter(function(person){
+      if (person.eyeColor == eyeColor){
+       return true ;    
+      }
+      else {
+        return false;
+      }
+    });
+}
+
+  if(heightYesNo == 'yes'){
+    var height = promptFor("What is the person's height?", chars);
+      
+    filteredPeople = filteredPeople.filter(function(person){
+      if (person.height == height){
+      return true ;    
+      }
+      else {
+        return false;
+      }
+    });
+  }
+
+  if(weightYesNo == 'yes'){
+    var weight = promptFor("What is the person's weight?", chars);
+      
+    filteredPeople = filteredPeople.filter(function(person){
+      if (person.weight == weight){
+      return true ;    
+      }
+      else {
+        return false;
+      }
+    });
+  }
+
+  if(occupationYesNo == 'yes'){
+    var occupation = promptFor("What is the person's occupation?", chars);
+      
+    filteredPeople = filteredPeople.filter(function(person){
+      if (person.occupation == occupation){
+      return true ;    
+      }
+      else {
+        return false;
+      }
+    });
+  }
+
+  if(ageYesNo == 'yes'){
+    var age = promptFor("What is the person's age?", chars);
+      
+    filteredPeople = filteredPeople.filter(function(person){
+      if (person.age == age){
+      return true ;    
+      }
+      else {
+        return false;
+      }
+    });
+  }
+
+
+console.log(filteredPeople);
+
 }
 
 // alerts a list of people
