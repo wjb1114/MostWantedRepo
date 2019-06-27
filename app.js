@@ -9,6 +9,7 @@ function app(people){
     case 'yes':
     // TODO: search by name
     var foundPerson = searchByName(people);
+		mainMenu(checkSingleResult(foundPerson), data);
     break;
     case 'no':
     // TODO: search by traits
@@ -18,6 +19,7 @@ function app(people){
     app(people); // restart app
     break;
   }
+
 }
 
 // Menu function to call once you find who you are looking for
@@ -57,7 +59,7 @@ function searchByName(people){
   var lastName = promptFor("What is the person's last name?", chars);
 
   var foundPerson = people.filter(function(person){
-    if(person.firstName === firstName && person.lastName === lastName){
+    if(person.firstName.toLowerCase() === firstName.toLowerCase() && person.lastName.toLowerCase() === lastName.toLowerCase()){
       return true;
     }
     else{
@@ -179,4 +181,13 @@ function yesNo(input){
 // helper function to pass in as default promptFor validation
 function chars(input){
   return true; // default validation only
+}
+
+function checkSingleResult(personArr) {
+	if (personArr.length === 1) {
+		return personArr[0];
+	}
+	else {
+		return undefined;
+	}
 }
