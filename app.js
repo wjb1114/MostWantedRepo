@@ -297,8 +297,9 @@ function displayFamily(person, people){
 			}
 		});
 		spouseSingle = checkSingleResult(foundSpouse)
-		spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
-  // }
+    spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
+  
+  }
 
   // let childrenString = "Current Children:"
   // //   if(person.id.length === people.id.length){
@@ -306,30 +307,39 @@ function displayFamily(person, people){
   // // }
   // // else{
 
-  // let children;
-  // let foundChildren = [];
-  // for (let i =0; i<person.id.length; i++) {
-  //   children = people.filter(function(person){
-  //     if(person.id === person.parents[i]){
-  //       return true;
-  //     }
-  //     else{
-  //       return false;
-  //     }
-  //   })
-  //   foundChildren.push(checkSingleResult(children));
-  //   console.log(foundChildren)
-  // }
+  let childString = "Children: "
+  let children;
+  let foundChildren = [];
+  
+    children = people.filter(function(childrens){
+      for (let i =0; i<childrens.parents.length; i++) {
+        if(person.id === childrens.parents[i]){
+          return true;
+        }
+      }
+      return false;
+    })
+    
+    for (let i = 0; i < children.length; i++){
+      childString += children[i].firstName;
+      childString += " ";
+      childString += children[i].lastName;
+      if (i < children.length - 1) {
+        childString += " and ";
+      }
+    }
+  
 
 	alert (	"ID: " + person.id + "\n" +
 					"Name: " + person.firstName + " " + person.lastName + "\n" +
 					parentsString + "\n" +
-          spouseString
+          spouseString + "\n" +
+          childString
           )
 
 
 }
-}
+
 
 function getAge(people) {
 	let dayToday = new Date().getDate();
