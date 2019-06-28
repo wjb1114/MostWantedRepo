@@ -156,9 +156,19 @@ return filteredPeople;
 
 // alerts a list of people
 function displayPeople(people){
-  alert("Multiple results found:\n\n" + people.map(function(person){
-    return person.firstName + " " + person.lastName + ":\n ID Number: " + person.id;
-  }).join("\n\n"));
+	if (people.length > 1) {
+  	alert(people.length + " results found:\n\n" + people.map(function(person){
+    	return person.firstName + " " + person.lastName + ":\n ID Number: " + person.id;
+  	}).join("\n\n"));
+	}
+	else if (people.length === 0) {
+		alert("No results found.");
+	}
+	else {
+		alert("One result found:\n\n" + people.map(function(person){
+    	return person.firstName + " " + person.lastName + ":\n ID Number: " + person.id;
+  	}).join("\n\n"));
+	}
 }
 
 // function that prompts and validates user input
