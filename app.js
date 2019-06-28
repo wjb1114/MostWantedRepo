@@ -3,7 +3,7 @@
 // app is the function called to start the entire application
 function app(people) {
   let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
-	let foundPerson
+  let foundPerson
   switch (searchType) {
     case 'yes':
       foundPerson = searchByName(people);
@@ -28,7 +28,7 @@ function mainMenu(person, people) {
   }
   if (Array.isArray(person)) {
     displayPeople(person);
-		return app(people);
+    return app(people);
   }
   let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
   switch (displayOption) {
@@ -56,7 +56,7 @@ function searchByName(people) {
   let firstName = promptFor("What is the person's first name?", chars);
   let lastName = promptFor("What is the person's last name?", chars);
 
-  let foundPerson = people.filter(function(person) {
+  let foundPerson = people.filter(function (person) {
     if (person.firstName.toLowerCase() === firstName.toLowerCase() && person.lastName.toLowerCase() === lastName.toLowerCase()) {
       return true;
     } else {
@@ -80,7 +80,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
 
   if (eyeColorsYesNo == 'yes') {
     let eyeColor = promptFor("What is the person's eye color?", nonInteger);
-    filteredPeople = filteredPeople.filter(function(person) {
+    filteredPeople = filteredPeople.filter(function (person) {
       if (person.eyeColor == eyeColor) {
         return true;
       } else {
@@ -92,7 +92,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
   if (heightYesNo == 'yes') {
     let height = promptFor("What is the person's height in inches?", integer);
 
-    filteredPeople = filteredPeople.filter(function(person) {
+    filteredPeople = filteredPeople.filter(function (person) {
       if (person.height == height) {
         return true;
       } else {
@@ -104,7 +104,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
   if (weightYesNo == 'yes') {
     let weight = promptFor("What is the person's weight in pounds?", integer);
 
-    filteredPeople = filteredPeople.filter(function(person) {
+    filteredPeople = filteredPeople.filter(function (person) {
       if (person.weight == weight) {
         return true;
       } else {
@@ -116,7 +116,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
   if (occupationYesNo == 'yes') {
     let occupation = promptFor("What is the person's occupation?", nonInteger);
 
-    filteredPeople = filteredPeople.filter(function(person) {
+    filteredPeople = filteredPeople.filter(function (person) {
       if (person.occupation == occupation) {
         return true;
       } else {
@@ -128,7 +128,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
   if (ageYesNo == 'yes') {
     let age = promptFor("What is the person's age?", integer);
 
-    filteredPeople = filteredPeople.filter(function(person) {
+    filteredPeople = filteredPeople.filter(function (person) {
       if (person.age == age) {
         return true;
       } else {
@@ -145,13 +145,13 @@ function searchByTrait(people) { // need only 2 but can search up to 5
 // alerts a list of people
 function displayPeople(people) {
   if (people.length > 1) {
-    alert(people.length + " results found:\n\n" + people.map(function(person) {
+    alert(people.length + " results found:\n\n" + people.map(function (person) {
       return person.firstName + " " + person.lastName + ":\n ID Number: " + person.id;
     }).join("\n\n"));
   } else if (people.length === 0) {
     alert("No results found.");
   } else {
-    alert("One result found:\n\n" + people.map(function(person) {
+    alert("One result found:\n\n" + people.map(function (person) {
       return person.firstName + " " + person.lastName + ":\n ID Number: " + person.id;
     }).join("\n\n"));
   }
@@ -159,7 +159,7 @@ function displayPeople(people) {
 
 // function that prompts and validates user input
 function promptFor(question, valid) {
-	let response;
+  let response;
   do {
     response = prompt(question).trim();
   } while (!response || !valid(response));
@@ -178,13 +178,23 @@ function chars(input) {
 
 // helper function, ensures input is a number
 function integer(input) {
-  return !Number.isNaN(parseInt(input))
+  for( let i = 0; i < input.length; i ++){
+    if(Number.isNaN(parseInt(input[i]))){
+    return false;
+    }
+  }
+  return true;
 }
-
 // helper function, ensures input is not a number
 function nonInteger(input) {
-  return Number.isNaN(parseInt(input))
+  for( let i = 0; i < input.length; i ++){
+    if(!Number.isNaN(parseInt(input[i]))){
+    return false;
+    }
+  }
+  return true;
 }
+
 
 // returns single object in array if array length is one, otherwise returns whole array or returns undefined if the array is empty
 function checkSingleResult(personArr) {
@@ -200,15 +210,14 @@ function checkSingleResult(personArr) {
 // displays all traits for selected object
 function displayInfo(person, people) {
   let parentsString = getParents(person, people);
- 
-  parentsString += "\n";
+
 
   let spouseString = "Current Spouse: ";
   let foundSpouse;
   if (person.currentSpouse === null) {
     spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
   } else {
-    foundSpouse = people.filter(function(personSpouse) {
+    foundSpouse = people.filter(function (personSpouse) {
       if (personSpouse.id === person.currentSpouse) {
         return true;
       } else {
@@ -218,7 +227,7 @@ function displayInfo(person, people) {
     let spouseSingle = checkSingleResult(foundSpouse)
     spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
   }
-  spouseString += "\n";
+ 
 
   alert("ID: " + person.id + "\n" +
     "Name: " + person.firstName + " " + person.lastName + "\n" +
@@ -228,8 +237,8 @@ function displayInfo(person, people) {
     "Weight: " + person.weight + " pounds\n" +
     "Eye Color: " + person.eyeColor + "\n" +
     "Occupation: " + person.occupation + "\n" +
-    parentsString +
-    spouseString +
+    parentsString + "\n" +
+    spouseString + "\n" +
     "Age: " + person.age)
 
 }
@@ -237,14 +246,14 @@ function displayInfo(person, people) {
 // displays parents, spouse, and children of selected person
 function displayFamily(person, people) {
 
-  let parentsString = getParents(person,people);
+  let parentsString = getParents(person, people);
 
   let spouseString = "Current Spouse: ";
   let foundSpouse;
   if (person.currentSpouse === null) {
     spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
   } else {
-    foundSpouse = people.filter(function(personSpouse) {
+    foundSpouse = people.filter(function (personSpouse) {
       if (personSpouse.id === person.currentSpouse) {
         return true;
       } else {
@@ -260,7 +269,7 @@ function displayFamily(person, people) {
   let children;
   let foundChildren = [];
 
-  children = people.filter(function(childrens) {
+  children = people.filter(function (childrens) {
     for (let i = 0; i < childrens.parents.length; i++) {
       if (person.id === childrens.parents[i]) {
         return true;
@@ -315,7 +324,7 @@ function getAge(people) {
 function getDescendants(person, people, foundDesc = []) {
   let descendants = [];
 
-  descendants = people.filter(function(descendantsEl) {
+  descendants = people.filter(function (descendantsEl) {
     for (let i = 0; i < descendantsEl.parents.length; i++) {
       if (person.id === descendantsEl.parents[i]) {
         return true;
@@ -336,7 +345,8 @@ function getDescendants(person, people, foundDesc = []) {
 
 getAge(data);
 
-function getParents(person,people){
+// function to recieve parents based on person searched
+function getParents(person, people) {
   let parentsString = "Parent(s):";
   if (person.parents.length === 0) {
     parentsString += " No parents found";
@@ -344,7 +354,7 @@ function getParents(person,people){
     let foundParents;
     let parents = [];
     for (let i = 0; i < person.parents.length; i++) {
-      foundParent = people.filter(function(personParent) {
+      foundParent = people.filter(function (personParent) {
         if (personParent.id === person.parents[i]) {
           return true;
         } else {
