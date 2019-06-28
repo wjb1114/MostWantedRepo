@@ -86,7 +86,7 @@ function searchByTrait(people){ // need only 2 but can search up to 5
 
 
   if(eyeColorsYesNo == 'yes'){
-    var eyeColor = promptFor("What is the person's eye color?", chars);
+    var eyeColor = promptFor("What is the person's eye color?", nonInteger);
     filteredPeople = filteredPeople.filter(function(person){
       if (person.eyeColor == eyeColor){
        return true ;
@@ -124,7 +124,7 @@ function searchByTrait(people){ // need only 2 but can search up to 5
   }
 
   if(occupationYesNo == 'yes'){
-    var occupation = promptFor("What is the person's occupation?", chars);
+    var occupation = promptFor("What is the person's occupation?", nonInteger);
 
     filteredPeople = filteredPeople.filter(function(person){
       if (person.occupation == occupation){
@@ -190,6 +190,9 @@ function chars(input){
 }
 function integer(input){
   return !Number.isNaN(parseInt(input))
+}
+function nonInteger(input){
+  return Number.isNaN(parseInt(input))
 }
 
 function checkSingleResult(personArr) {
@@ -339,7 +342,7 @@ function displayFamily(person, people){
     if (children.length == 0){
       childString += " No children found";
     }
-  
+
 
 
 	alert (	"ID: " + person.id + "\n" +
