@@ -1,73 +1,63 @@
 "use strict";
 
-/*
-Build all of your functions for displaying and gathering information below (GUI).
-*/
-
 // app is the function called to start the entire application
-function app(people){
+function app(people) {
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
-  switch(searchType){
+  switch (searchType) {
     case 'yes':
-    var foundPerson = searchByName(people);
-		mainMenu(checkSingleResult(foundPerson), data);
-    break;
+      var foundPerson = searchByName(people);
+      mainMenu(checkSingleResult(foundPerson), data);
+      break;
     case 'no':
-    // TODO: search by traits
-    var foundPerson = searchByTrait(people);
-    mainMenu(checkSingleResult(foundPerson), data);
-    break;
+      // TODO: search by traits
+      var foundPerson = searchByTrait(people);
+      mainMenu(checkSingleResult(foundPerson), data);
+      break;
     default:
-    app(people); // restart app
-    break;
+      app(people); // restart app
+      break;
   }
-
 }
 
 // Menu function to call once you find who you are looking for
-function mainMenu(person, people){
-
-  /* Here we pass in the entire person object that we found in our search, as well as the entire original dataset of people. We need people in order to find descendants and other information that the user may want. */
-
-  if(!person){
+function mainMenu(person, people) {
+  if (!person) {
     alert("Could not find that individual.");
     return app(people); // restart
   }
-	if (Array.isArray(person)) {
-		displayPeople(person);
-	}
-
+  if (Array.isArray(person)) {
+    displayPeople(person);
+  }
   var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
-
-  switch(displayOption){
+  switch (displayOption) {
     case "info":
-	    displayInfo(person, data);
-    break;
+      displayInfo(person, data);
+      break;
     case "family":
       displayFamily(person, data);
-    break;
+      break;
     case "descendants":
-	    displayPeople(getDescendants(person, data));
-    break;
+      displayPeople(getDescendants(person, data));
+      break;
     case "restart":
-    app(people); // restart
-    break;
+      app(people); // restart
+      break;
     case "quit":
-    return; // stop execution
+      return; // stop execution
     default:
-    return mainMenu(person, people); // ask again
+      return mainMenu(person, people); // ask again
   }
 }
 
-function searchByName(people){
+// Search by first and last name
+function searchByName(people) {
   var firstName = promptFor("What is the person's first name?", chars);
   var lastName = promptFor("What is the person's last name?", chars);
 
-  var foundPerson = people.filter(function(person){
-    if(person.firstName.toLowerCase() === firstName.toLowerCase() && person.lastName.toLowerCase() === lastName.toLowerCase()){
+  var foundPerson = people.filter(function(person) {
+    if (person.firstName.toLowerCase() === firstName.toLowerCase() && person.lastName.toLowerCase() === lastName.toLowerCase()) {
       return true;
-    }
-    else{
+    } else {
       return false;
     }
   })
@@ -75,7 +65,8 @@ function searchByName(people){
   return foundPerson;
 }
 
-function searchByTrait(people){ // need only 2 but can search up to 5
+// Search by one or more traits
+function searchByTrait(people) { // need only 2 but can search up to 5
   let filteredPeople = people;
 
   var heightYesNo = promptFor("Do you know the person's height? Yes or No.", yesNo);
@@ -85,211 +76,203 @@ function searchByTrait(people){ // need only 2 but can search up to 5
   var ageYesNo = promptFor("Do you know the person's age? Yes or No.", yesNo);
 
 
-  if(eyeColorsYesNo == 'yes'){
+  if (eyeColorsYesNo == 'yes') {
     var eyeColor = promptFor("What is the person's eye color?", nonInteger);
-    filteredPeople = filteredPeople.filter(function(person){
-      if (person.eyeColor == eyeColor){
-       return true ;
-      }
-      else {
+    filteredPeople = filteredPeople.filter(function(person) {
+      if (person.eyeColor == eyeColor) {
+        return true;
+      } else {
         return false;
       }
     });
-}
+  }
 
-  if(heightYesNo == 'yes'){
+  if (heightYesNo == 'yes') {
     var height = promptFor("What is the person's height in inches?", integer);
 
-    filteredPeople = filteredPeople.filter(function(person){
-      if (person.height == height){
-      return true ;
-      }
-      else {
+    filteredPeople = filteredPeople.filter(function(person) {
+      if (person.height == height) {
+        return true;
+      } else {
         return false;
       }
     });
   }
 
-  if(weightYesNo == 'yes'){
+  if (weightYesNo == 'yes') {
     var weight = promptFor("What is the person's weight in pounds?", integer);
 
-    filteredPeople = filteredPeople.filter(function(person){
-      if (person.weight == weight){
-      return true ;
-      }
-      else {
+    filteredPeople = filteredPeople.filter(function(person) {
+      if (person.weight == weight) {
+        return true;
+      } else {
         return false;
       }
     });
   }
 
-  if(occupationYesNo == 'yes'){
+  if (occupationYesNo == 'yes') {
     var occupation = promptFor("What is the person's occupation?", nonInteger);
 
-    filteredPeople = filteredPeople.filter(function(person){
-      if (person.occupation == occupation){
-      return true ;
-      }
-      else {
+    filteredPeople = filteredPeople.filter(function(person) {
+      if (person.occupation == occupation) {
+        return true;
+      } else {
         return false;
       }
     });
   }
 
-  if(ageYesNo == 'yes'){
+  if (ageYesNo == 'yes') {
     var age = promptFor("What is the person's age?", integer);
 
-    filteredPeople = filteredPeople.filter(function(person){
-      if (person.age == age){
-      return true ;
-      }
-      else {
+    filteredPeople = filteredPeople.filter(function(person) {
+      if (person.age == age) {
+        return true;
+      } else {
         return false;
       }
     });
   }
 
 
-return filteredPeople;
+  return filteredPeople;
 
 }
 
 // alerts a list of people
-function displayPeople(people){
-	if (people.length > 1) {
-  	alert(people.length + " results found:\n\n" + people.map(function(person){
-    	return person.firstName + " " + person.lastName + ":\n ID Number: " + person.id;
-  	}).join("\n\n"));
-	}
-	else if (people.length === 0) {
-		alert("No results found.");
-	}
-	else {
-		alert("One result found:\n\n" + people.map(function(person){
-    	return person.firstName + " " + person.lastName + ":\n ID Number: " + person.id;
-  	}).join("\n\n"));
-	}
+function displayPeople(people) {
+  if (people.length > 1) {
+    alert(people.length + " results found:\n\n" + people.map(function(person) {
+      return person.firstName + " " + person.lastName + ":\n ID Number: " + person.id;
+    }).join("\n\n"));
+  } else if (people.length === 0) {
+    alert("No results found.");
+  } else {
+    alert("One result found:\n\n" + people.map(function(person) {
+      return person.firstName + " " + person.lastName + ":\n ID Number: " + person.id;
+    }).join("\n\n"));
+  }
 }
 
 // function that prompts and validates user input
-function promptFor(question, valid){
-  do{
+function promptFor(question, valid) {
+  do {
     var response = prompt(question).trim();
-  } while(!response || !valid(response));
+  } while (!response || !valid(response));
   return response;
 }
 
 // helper function to pass into promptFor to validate yes/no answers
-function yesNo(input){
+function yesNo(input) {
   return input.toLowerCase() == "yes" || input.toLowerCase() == "no";
 }
 
 // helper function to pass in as default promptFor validation
-function chars(input){
+function chars(input) {
   return true;
 }
-function integer(input){
+
+// helper function, ensures input is a number
+function integer(input) {
   return !Number.isNaN(parseInt(input))
 }
-function nonInteger(input){
+
+// helper function, ensures input is not a number
+function nonInteger(input) {
   return Number.isNaN(parseInt(input))
 }
 
+// returns single object in array if array length is one, otherwise returns whole array or returns undefined if the array is empty
 function checkSingleResult(personArr) {
-	if (personArr.length === 1) {
-		return personArr[0];
-	}
-	else if (personArr.length > 1) {
-		return personArr;
-	}
-	else {
-		return undefined;
-	}
+  if (personArr.length === 1) {
+    return personArr[0];
+  } else if (personArr.length > 1) {
+    return personArr;
+  } else {
+    return undefined;
+  }
 }
 
+// displays all traits for selected object
 function displayInfo(person, people) {
-	let parentsString = "Parent(s): ";
-	if (person.parents.length === 0) {
-		parentsString += person.firstName + " " + person.lastName + " has no parents in the application data.";
-	}
-	else {
-		let foundParent;
-		let parents = [];
-		for (let i = 0; i < person.parents.length; i++) {
-			foundParent = people.filter(function(personParent){
-		    if(personParent.id === person.parents[i]){
-		      return true;
-		    }
-		    else{
-		      return false;
-		    }
-		  });
-			parents.push(checkSingleResult(foundParent));
-		}
-		for (let i = 0; i < parents.length; i++) {
-			parentsString += parents[i].firstName;
-			parentsString += " ";
-			parentsString += parents[i].lastName;
-			if (i < parents.length - 1) {
-				parentsString += " and ";
-			}
-		}
-	}
+  let parentsString = "Parent(s): ";
+  if (person.parents.length === 0) {
+    parentsString += person.firstName + " " + person.lastName + " has no parents in the application data.";
+  } else {
+    let foundParent;
+    let parents = [];
+    for (let i = 0; i < person.parents.length; i++) {
+      foundParent = people.filter(function(personParent) {
+        if (personParent.id === person.parents[i]) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      parents.push(checkSingleResult(foundParent));
+    }
+    for (let i = 0; i < parents.length; i++) {
+      parentsString += parents[i].firstName;
+      parentsString += " ";
+      parentsString += parents[i].lastName;
+      if (i < parents.length - 1) {
+        parentsString += " and ";
+      }
+    }
+  }
   parentsString += "\n";
 
-	let spouseString = "Current Spouse: ";
-	let foundSpouse;
-	if (person.currentSpouse === null) {
-		spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
-	}
-	else {
-		foundSpouse = people.filter(function(personSpouse){
-			if(personSpouse.id === person.currentSpouse){
-				return true;
-			}
-			else{
-				return false;
-			}
-		});
-		let spouseSingle = checkSingleResult(foundSpouse)
-		spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
-	}
+  let spouseString = "Current Spouse: ";
+  let foundSpouse;
+  if (person.currentSpouse === null) {
+    spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
+  } else {
+    foundSpouse = people.filter(function(personSpouse) {
+      if (personSpouse.id === person.currentSpouse) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    let spouseSingle = checkSingleResult(foundSpouse)
+    spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
+  }
   spouseString += "\n";
 
-	alert (	"ID: " + person.id + "\n" +
-					"Name: " + person.firstName + " " + person.lastName + "\n" +
-					"Gender: " + person.gender + "\n" +
-					"Date of Birth: " + person.dob + "\n" +
-					"Height: " + Math.floor(person.height / 12) + " feet and " + (person.height % 12) + " inches\n" +
-					"Weight: " + person.weight + " pounds\n" +
-					"Eye Color: " + person.eyeColor + "\n" +
-					"Occupation: " + person.occupation + "\n" +
-					parentsString +
-          spouseString +
-					"Age: " + person.age)
+  alert("ID: " + person.id + "\n" +
+    "Name: " + person.firstName + " " + person.lastName + "\n" +
+    "Gender: " + person.gender + "\n" +
+    "Date of Birth: " + person.dob + "\n" +
+    "Height: " + Math.floor(person.height / 12) + " feet and " + (person.height % 12) + " inches\n" +
+    "Weight: " + person.weight + " pounds\n" +
+    "Eye Color: " + person.eyeColor + "\n" +
+    "Occupation: " + person.occupation + "\n" +
+    parentsString +
+    spouseString +
+    "Age: " + person.age)
 
 }
 
-function displayFamily(person, people){
+// displays parents, spouse, and children of selected person
+function displayFamily(person, people) {
   let parentsString = "Parent(s):";
-  if(person.parents.length === 0){
+  if (person.parents.length === 0) {
     parentsString += " No parents found";
-  }
-  else{
+  } else {
     let foundParents;
     let parents = [];
-    for (let i =0; i<person.parents.length; i++) {
-      foundParent = people.filter(function(personParent){
-        if(personParent.id === person.parents[i]){
+    for (let i = 0; i < person.parents.length; i++) {
+      foundParent = people.filter(function(personParent) {
+        if (personParent.id === person.parents[i]) {
           return true;
-        }
-        else{
+        } else {
           return false;
         }
       })
       parents.push(checkSingleResult(foundParent));
     }
-    for (let i = 0; i < parents.length; i++){
+    for (let i = 0; i < parents.length; i++) {
       parentsString += parents[i].firstName;
       parentsString += " ";
       parentsString += parents[i].lastName;
@@ -299,21 +282,19 @@ function displayFamily(person, people){
     }
   }
 
-	let spouseString = "Current Spouse: ";
-	let foundSpouse;
-	if (person.currentSpouse === null) {
-		spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
-	}
-	else {
-		foundSpouse = people.filter(function(personSpouse){
-			if(personSpouse.id === person.currentSpouse){
-				return true;
-			}
-			else{
-				return false;
-			}
-		});
-		let spouseSingle = checkSingleResult(foundSpouse)
+  let spouseString = "Current Spouse: ";
+  let foundSpouse;
+  if (person.currentSpouse === null) {
+    spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
+  } else {
+    foundSpouse = people.filter(function(personSpouse) {
+      if (personSpouse.id === person.currentSpouse) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    let spouseSingle = checkSingleResult(foundSpouse)
     spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
 
   }
@@ -322,78 +303,78 @@ function displayFamily(person, people){
   let children;
   let foundChildren = [];
 
-    children = people.filter(function(childrens){
-      for (let i =0; i<childrens.parents.length; i++) {
-        if(person.id === childrens.parents[i]){
-          return true;
-        }
-      }
-      return false;
-    })
-
-    for (let i = 0; i < children.length; i++){
-      childString += children[i].firstName;
-      childString += " ";
-      childString += children[i].lastName;
-      if (i < children.length - 1) {
-        childString += " and ";
+  children = people.filter(function(childrens) {
+    for (let i = 0; i < childrens.parents.length; i++) {
+      if (person.id === childrens.parents[i]) {
+        return true;
       }
     }
-    if (children.length == 0){
-      childString += " No children found";
+    return false;
+  })
+
+  for (let i = 0; i < children.length; i++) {
+    childString += children[i].firstName;
+    childString += " ";
+    childString += children[i].lastName;
+    if (i < children.length - 1) {
+      childString += " and ";
     }
+  }
+  if (children.length == 0) {
+    childString += " No children found";
+  }
 
 
 
-	alert (	"ID: " + person.id + "\n" +
-					"Name: " + person.firstName + " " + person.lastName + "\n" +
-					parentsString + "\n" +
-          spouseString + "\n" +
-          childString
-          )
+  alert("ID: " + person.id + "\n" +
+    "Name: " + person.firstName + " " + person.lastName + "\n" +
+    parentsString + "\n" +
+    spouseString + "\n" +
+    childString
+  )
 }
 
-
+// assigns age to object array based on current date
 function getAge(people) {
-	let dayToday = new Date().getDate();
-	let monthToday = new Date().getMonth();
-	let yearToday = new Date().getFullYear();
-	for (let i = 0; i < people.length; i++) {
-		let birthDate = people[i].dob;
-		let birthDateSplit = people[i].dob.split("/");
-		birthDateSplit[0] -= 1;
-		let splitDiff = [];
-		splitDiff[0] = monthToday - birthDateSplit[0];
-		splitDiff[1] = dayToday - birthDateSplit[1];
-		splitDiff[2] = yearToday - birthDateSplit[2];
-		if (splitDiff[0] < 0 || (splitDiff[0] == 0 && splitDiff[1] < 0)) {
-			splitDiff[2]--;
-		}
-		people[i].age = splitDiff[2];
-	}
+  let dayToday = new Date().getDate();
+  let monthToday = new Date().getMonth();
+  let yearToday = new Date().getFullYear();
+  for (let i = 0; i < people.length; i++) {
+    let birthDate = people[i].dob;
+    let birthDateSplit = people[i].dob.split("/");
+    birthDateSplit[0] -= 1;
+    let splitDiff = [];
+    splitDiff[0] = monthToday - birthDateSplit[0];
+    splitDiff[1] = dayToday - birthDateSplit[1];
+    splitDiff[2] = yearToday - birthDateSplit[2];
+    if (splitDiff[0] < 0 || (splitDiff[0] == 0 && splitDiff[1] < 0)) {
+      splitDiff[2]--;
+    }
+    people[i].age = splitDiff[2];
+  }
 }
 
-function getDescendants (person, people, foundDesc = []) {
+// returns array of all descendants of selected person
+function getDescendants(person, people, foundDesc = []) {
   let descendants = [];
 
-  descendants = people.filter(function(descendantsEl){
-    for (let i =0; i<descendantsEl.parents.length; i++) {
-      if(person.id === descendantsEl.parents[i]){
+  descendants = people.filter(function(descendantsEl) {
+    for (let i = 0; i < descendantsEl.parents.length; i++) {
+      if (person.id === descendantsEl.parents[i]) {
         return true;
       }
     }
     return false;
   });
 
-	for (let i = 0; i < descendants.length; i++) {
-		if (!foundDesc.includes(descendants[i])) {
-			foundDesc.push(descendants[i]);
-		}
-		getDescendants(descendants[i], people, descendants);
-	}
+  for (let i = 0; i < descendants.length; i++) {
+    if (!foundDesc.includes(descendants[i])) {
+      foundDesc.push(descendants[i]);
+    }
+    getDescendants(descendants[i], people, descendants);
+  }
 
-	return foundDesc;
+  return foundDesc;
 }
-
 
 getAge(data);
