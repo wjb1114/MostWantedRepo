@@ -336,11 +336,11 @@ getAge(data);
 
 // function to recieve parents based on person searched
 function getParents(person, people) {
-  let parentsString = "Parent(s):";
+  let parentsString = "Parent(s): ";
   if (person.parents.length === 0) {
     parentsString += " No parents found";
   } else {
-    let foundParents;
+    let foundParent;
     let parents = [];
     for (let i = 0; i < person.parents.length; i++) {
       foundParent = people.filter(function (personParent) {
