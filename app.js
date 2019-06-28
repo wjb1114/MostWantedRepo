@@ -212,22 +212,7 @@ function displayInfo(person, people) {
   let parentsString = getParents(person, people);
 
 
-  let spouseString = "Current Spouse: ";
-  let foundSpouse;
-  if (person.currentSpouse === null) {
-    spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
-  } else {
-    foundSpouse = people.filter(function (personSpouse) {
-      if (personSpouse.id === person.currentSpouse) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    let spouseSingle = checkSingleResult(foundSpouse)
-    spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
-  }
- 
+  let spouseString = getSpouse(person, people);
 
   alert("ID: " + person.id + "\n" +
     "Name: " + person.firstName + " " + person.lastName + "\n" +
@@ -248,22 +233,7 @@ function displayFamily(person, people) {
 
   let parentsString = getParents(person, people);
 
-  let spouseString = "Current Spouse: ";
-  let foundSpouse;
-  if (person.currentSpouse === null) {
-    spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
-  } else {
-    foundSpouse = people.filter(function (personSpouse) {
-      if (personSpouse.id === person.currentSpouse) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    let spouseSingle = checkSingleResult(foundSpouse)
-    spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
-
-  }
+  let spouseString = getSpouse(person, people);
 
   let childString = "Children: "
   let children;
@@ -341,6 +311,25 @@ function getDescendants(person, people, foundDesc = []) {
   }
 
   return foundDesc;
+}
+
+function getSpouse(person, people) {
+	let spouseString = "Current Spouse: ";
+  let foundSpouse;
+  if (person.currentSpouse === null) {
+    spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
+  } else {
+    foundSpouse = people.filter(function(personSpouse) {
+      if (personSpouse.id === person.currentSpouse) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+    let spouseSingle = checkSingleResult(foundSpouse)
+    spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
+  }
+	return spouseString;
 }
 
 getAge(data);
