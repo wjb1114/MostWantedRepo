@@ -326,6 +326,10 @@ function displayFamily(person, people){
         childString += " and ";
       }
     }
+    if (children.length == 0){
+      childString += " No children found";
+    }
+  
 
 
 	alert (	"ID: " + person.id + "\n" +
