@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 Build all of your functions for displaying and gathering information below (GUI).
 */
@@ -33,7 +35,6 @@ function mainMenu(person, people){
   }
 	if (Array.isArray(person)) {
 		displayPeople(person);
-		return app(people);
 	}
 
   var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
@@ -175,7 +176,7 @@ function yesNo(input){
 
 // helper function to pass in as default promptFor validation
 function chars(input){
-  return true; 
+  return true;
 }
 function integer(input){
   return !Number.isNaN(parseInt(input))
@@ -237,7 +238,7 @@ function displayInfo(person, people) {
 				return false;
 			}
 		});
-		spouseSingle = checkSingleResult(foundSpouse)
+		let spouseSingle = checkSingleResult(foundSpouse)
 		spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
 	}
   spouseString += "\n";
@@ -299,7 +300,7 @@ function displayFamily(person, people){
 				return false;
 			}
 		});
-		spouseSingle = checkSingleResult(foundSpouse)
+		let spouseSingle = checkSingleResult(foundSpouse)
     spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
 
   }
