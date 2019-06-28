@@ -77,11 +77,11 @@ function searchByName(people){
 function searchByTrait(people){ // need only 2 but can search up to 5
   let filteredPeople = people;
 
-  var heightYesNo = promptFor("Do you know the person's height?", yesNo);
-  var weightYesNo = promptFor("Do you know the person's weight?", yesNo);
-  var eyeColorsYesNo = promptFor("Do you know the person's eye color?", yesNo);
-  var occupationYesNo = promptFor("Do you know the person's occupation?", yesNo)
-  var ageYesNo = promptFor("Do you know the person's age?", yesNo);
+  var heightYesNo = promptFor("Do you know the person's height? Yes or No.", yesNo);
+  var weightYesNo = promptFor("Do you know the person's weight? Yes or No.", yesNo);
+  var eyeColorsYesNo = promptFor("Do you know the person's eye color? Yes or No.", yesNo);
+  var occupationYesNo = promptFor("Do you know the person's occupation? Yes or No.", yesNo)
+  var ageYesNo = promptFor("Do you know the person's age? Yes or No.", yesNo);
 
 
   if(eyeColorsYesNo == 'yes'){
@@ -97,7 +97,7 @@ function searchByTrait(people){ // need only 2 but can search up to 5
 }
 
   if(heightYesNo == 'yes'){
-    var height = promptFor("What is the person's height?", chars);
+    var height = promptFor("What is the person's height in inches?", integer);
 
     filteredPeople = filteredPeople.filter(function(person){
       if (person.height == height){
@@ -110,7 +110,7 @@ function searchByTrait(people){ // need only 2 but can search up to 5
   }
 
   if(weightYesNo == 'yes'){
-    var weight = promptFor("What is the person's weight?", chars);
+    var weight = promptFor("What is the person's weight in pounds?", integer);
 
     filteredPeople = filteredPeople.filter(function(person){
       if (person.weight == weight){
@@ -136,7 +136,7 @@ function searchByTrait(people){ // need only 2 but can search up to 5
   }
 
   if(ageYesNo == 'yes'){
-    var age = promptFor("What is the person's age?", chars);
+    var age = promptFor("What is the person's age?", integer);
 
     filteredPeople = filteredPeople.filter(function(person){
       if (person.age == age){
@@ -175,7 +175,10 @@ function yesNo(input){
 
 // helper function to pass in as default promptFor validation
 function chars(input){
-  return true; // default validation only
+  return true; 
+}
+function integer(input){
+  return !Number.isNaN(parseInt(input))
 }
 
 function checkSingleResult(personArr) {
@@ -300,12 +303,6 @@ function displayFamily(person, people){
     spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
   
   }
-
-  // let childrenString = "Current Children:"
-  // //   if(person.id.length === people.id.length){
-  // //   parentsString += " Currently has no children";
-  // // }
-  // // else{
 
   let childString = "Children: "
   let children;
