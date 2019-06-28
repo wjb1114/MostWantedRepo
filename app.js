@@ -7,13 +7,13 @@ function app(people){
   var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   switch(searchType){
     case 'yes':
-    // TODO: search by name
     var foundPerson = searchByName(people);
 		mainMenu(checkSingleResult(foundPerson), data);
     break;
     case 'no':
     // TODO: search by traits
-    var foundPerson = searchByTrait(data);
+    var foundPerson = searchByTrait(people);
+    mainMenu(checkSingleREsult(foundPerson), data);
     break;
     default:
     app(people); // restart app
@@ -36,10 +36,10 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+	    displayInfo(person, data);
     break;
     case "family":
-    // TODO: get person's family
+      displayFamily(person, data);
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -190,4 +190,140 @@ function checkSingleResult(personArr) {
 	else {
 		return undefined;
 	}
+}
+
+function displayInfo(person, people) {
+	let parentsString = "Parent(s): ";
+	if (person.parents.length === 0) {
+		parentsString += person.firstName + " " + person.lastName + " has no parents in the application data.";
+	}
+	else {
+		let foundParent;
+		let parents = [];
+		for (let i = 0; i < person.parents.length; i++) {
+			foundParent = people.filter(function(personParent){
+		    if(personParent.id === person.parents[i]){
+		      return true;
+		    }
+		    else{
+		      return false;
+		    }
+		  });
+			parents.push(checkSingleResult(foundParent));
+		}
+		for (let i = 0; i < parents.length; i++) {
+			parentsString += parents[i].firstName;
+			parentsString += " ";
+			parentsString += parents[i].lastName;
+			if (i < parents.length - 1) {
+				parentsString += " and ";
+			}
+		}
+	}
+  parentsString += "\n";
+  
+	let spouseString = "Current Spouse: ";
+	let foundSpouse;
+	if (person.currentSpouse === null) {
+		spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
+	}
+	else {
+		foundSpouse = people.filter(function(personSpouse){
+			if(personSpouse.id === person.currentSpouse){
+				return true;
+			}
+			else{
+				return false;
+			}
+		});
+		spouseSingle = checkSingleResult(foundSpouse)
+		spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
+	}
+	alert (	"ID: " + person.id + "\n" +
+					"Name: " + person.firstName + " " + person.lastName + "\n" +
+					"Gender: " + person.gender + "\n" +
+					"Date of Birth: " + person.dob + "\n" +
+					"Height: " + Math.floor(person.height / 12) + " feet and " + (person.height % 12) + " inches\n" +
+					"Weight: " + person.weight + " pounds\n" +
+					"Eye Color: " + person.eyeColor + "\n" +
+					"Occupation: " + person.occupation + "\n" +
+					parentsString +
+					spouseString)
+}
+
+function displayFamily(person, people){
+  let parentsString = "Parent(s):";
+  if(person.parents.length === 0){
+    parentsString += " No parents found";
+  }
+  else{
+    let foundParents;
+    let parents = [];
+    for (let i =0; i<person.parents.length; i++) {
+      foundParent = people.filter(function(personParent){
+        if(personParent.id === person.parents[i]){
+          return true;
+        }
+        else{
+          return false;
+        }
+      })
+      parents.push(checkSingleResult(foundParent));
+    }
+    for (let i = 0; i < parents.length; i++){
+      parentsString += parents[i].firstName;
+      parentsString += " ";
+      parentsString += parents[i].lastName;
+      if (i < parents.length - 1) {
+        parentsString += " and ";
+      }
+    }
+  }
+
+	let spouseString = "Current Spouse: ";
+	let foundSpouse;
+	if (person.currentSpouse === null) {
+		spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
+	}
+	else {
+		foundSpouse = people.filter(function(personSpouse){
+			if(personSpouse.id === person.currentSpouse){
+				return true;
+			}
+			else{
+				return false;
+			}
+		});
+		spouseSingle = checkSingleResult(foundSpouse)
+		spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
+  // }
+
+  // let childrenString = "Current Children:"
+  // //   if(person.id.length === people.id.length){
+  // //   parentsString += " Currently has no children";
+  // // }
+  // // else{
+
+  // let children;
+  // let foundChildren = [];
+  // for (let i =0; i<person.id.length; i++) {
+  //   children = people.filter(function(person){
+  //     if(person.id === person.parents[i]){
+  //       return true;
+  //     }
+  //     else{
+  //       return false;
+  //     }
+  //   })
+  //   foundChildren.push(checkSingleResult(children));
+  //   console.log(foundChildren)
+  // }
+
+	alert (	"ID: " + person.id + "\n" +
+					"Name: " + person.firstName + " " + person.lastName + "\n" +
+					parentsString + "\n" +
+          spouseString
+          )
+
+
 }
