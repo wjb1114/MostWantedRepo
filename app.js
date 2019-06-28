@@ -81,7 +81,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
   if (eyeColorsYesNo == 'yes') {
     let eyeColor = promptFor("What is the person's eye color?", nonInteger);
     filteredPeople = filteredPeople.filter(function (person) {
-      if (person.eyeColor == eyeColor) {
+      if (person.eyeColor.toLowerCase() == eyeColor.toLowerCase()) {
         return true;
       } else {
         return false;
@@ -117,7 +117,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
     let occupation = promptFor("What is the person's occupation?", nonInteger);
 
     filteredPeople = filteredPeople.filter(function (person) {
-      if (person.occupation == occupation) {
+      if (person.occupation.toLowerCase() == occupation.toLowerCase()) {
         return true;
       } else {
         return false;
