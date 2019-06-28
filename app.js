@@ -196,31 +196,8 @@ function checkSingleResult(personArr) {
 
 // displays all traits for selected object
 function displayInfo(person, people) {
-  let parentsString = "Parent(s): ";
-  if (person.parents.length === 0) {
-    parentsString += person.firstName + " " + person.lastName + " has no parents in the application data.";
-  } else {
-    let foundParent;
-    let parents = [];
-    for (let i = 0; i < person.parents.length; i++) {
-      foundParent = people.filter(function(personParent) {
-        if (personParent.id === person.parents[i]) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-      parents.push(checkSingleResult(foundParent));
-    }
-    for (let i = 0; i < parents.length; i++) {
-      parentsString += parents[i].firstName;
-      parentsString += " ";
-      parentsString += parents[i].lastName;
-      if (i < parents.length - 1) {
-        parentsString += " and ";
-      }
-    }
-  }
+  let parentsString = getParents(person, people);
+ 
   parentsString += "\n";
 
   let spouseString = "Current Spouse: ";
@@ -256,31 +233,8 @@ function displayInfo(person, people) {
 
 // displays parents, spouse, and children of selected person
 function displayFamily(person, people) {
-  let parentsString = "Parent(s):";
-  if (person.parents.length === 0) {
-    parentsString += " No parents found";
-  } else {
-    let foundParents;
-    let parents = [];
-    for (let i = 0; i < person.parents.length; i++) {
-      foundParent = people.filter(function(personParent) {
-        if (personParent.id === person.parents[i]) {
-          return true;
-        } else {
-          return false;
-        }
-      })
-      parents.push(checkSingleResult(foundParent));
-    }
-    for (let i = 0; i < parents.length; i++) {
-      parentsString += parents[i].firstName;
-      parentsString += " ";
-      parentsString += parents[i].lastName;
-      if (i < parents.length - 1) {
-        parentsString += " and ";
-      }
-    }
-  }
+
+  let parentsString = getParents(person,people);
 
   let spouseString = "Current Spouse: ";
   let foundSpouse;
@@ -378,3 +332,32 @@ function getDescendants(person, people, foundDesc = []) {
 }
 
 getAge(data);
+
+function getParents(person,people){
+  let parentsString = "Parent(s):";
+  if (person.parents.length === 0) {
+    parentsString += " No parents found";
+  } else {
+    let foundParents;
+    let parents = [];
+    for (let i = 0; i < person.parents.length; i++) {
+      foundParent = people.filter(function(personParent) {
+        if (personParent.id === person.parents[i]) {
+          return true;
+        } else {
+          return false;
+        }
+      })
+      parents.push(checkSingleResult(foundParent));
+    }
+    for (let i = 0; i < parents.length; i++) {
+      parentsString += parents[i].firstName;
+      parentsString += " ";
+      parentsString += parents[i].lastName;
+      if (i < parents.length - 1) {
+        parentsString += " and ";
+      }
+    }
+  }
+  return parentsString;
+}
