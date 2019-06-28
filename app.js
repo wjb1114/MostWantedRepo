@@ -46,7 +46,7 @@ function mainMenu(person, people){
       displayFamily(person, data);
     break;
     case "descendants":
-    // TODO: get person's descendants
+	    displayPeople(getDescendants(person, data));
     break;
     case "restart":
     app(people); // restart
@@ -219,7 +219,7 @@ function displayInfo(person, people) {
 		}
 	}
   parentsString += "\n";
-  
+
 	let spouseString = "Current Spouse: ";
 	let foundSpouse;
 	if (person.currentSpouse === null) {
@@ -238,7 +238,7 @@ function displayInfo(person, people) {
 		spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
 	}
   spouseString += "\n";
-  
+
 	alert (	"ID: " + person.id + "\n" +
 					"Name: " + person.firstName + " " + person.lastName + "\n" +
 					"Gender: " + person.gender + "\n" +
@@ -298,7 +298,7 @@ function displayFamily(person, people){
 		});
 		spouseSingle = checkSingleResult(foundSpouse)
     spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
-  
+
   }
 
   // let childrenString = "Current Children:"
@@ -310,7 +310,7 @@ function displayFamily(person, people){
   let childString = "Children: "
   let children;
   let foundChildren = [];
-  
+
     children = people.filter(function(childrens){
       for (let i =0; i<childrens.parents.length; i++) {
         if(person.id === childrens.parents[i]){
@@ -319,7 +319,7 @@ function displayFamily(person, people){
       }
       return false;
     })
-    
+
     for (let i = 0; i < children.length; i++){
       childString += children[i].firstName;
       childString += " ";
@@ -328,7 +328,7 @@ function displayFamily(person, people){
         childString += " and ";
       }
     }
-  
+
 
 	alert (	"ID: " + person.id + "\n" +
 					"Name: " + person.firstName + " " + person.lastName + "\n" +
@@ -336,8 +336,6 @@ function displayFamily(person, people){
           spouseString + "\n" +
           childString
           )
-
-
 }
 
 
@@ -358,6 +356,28 @@ function getAge(people) {
 		}
 		people[i].age = splitDiff[2];
 	}
+}
+
+function getDescendants (person, people, foundDesc = []) {
+  let descendants = [];
+
+  descendants = people.filter(function(descendantsEl){
+    for (let i =0; i<descendantsEl.parents.length; i++) {
+      if(person.id === descendantsEl.parents[i]){
+        return true;
+      }
+    }
+    return false;
+  });
+
+	for (let i = 0; i < descendants.length; i++) {
+		if (!foundDesc.includes(descendants[i])) {
+			foundDesc.push(descendants[i]);
+		}
+		getDescendants(descendants[i], people, descendants);
+	}
+
+	return foundDesc;
 }
 
 
