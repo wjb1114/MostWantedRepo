@@ -2,15 +2,16 @@
 
 // app is the function called to start the entire application
 function app(people) {
-  var searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+	let foundPerson
   switch (searchType) {
     case 'yes':
-      var foundPerson = searchByName(people);
+      foundPerson = searchByName(people);
       mainMenu(checkSingleResult(foundPerson), data);
       break;
     case 'no':
       // TODO: search by traits
-      var foundPerson = searchByTrait(people);
+      foundPerson = searchByTrait(people);
       mainMenu(checkSingleResult(foundPerson), data);
       break;
     default:
@@ -27,8 +28,9 @@ function mainMenu(person, people) {
   }
   if (Array.isArray(person)) {
     displayPeople(person);
+		return app(people);
   }
-  var displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
+  let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
   switch (displayOption) {
     case "info":
       displayInfo(person, data);
@@ -51,10 +53,10 @@ function mainMenu(person, people) {
 
 // Search by first and last name
 function searchByName(people) {
-  var firstName = promptFor("What is the person's first name?", chars);
-  var lastName = promptFor("What is the person's last name?", chars);
+  let firstName = promptFor("What is the person's first name?", chars);
+  let lastName = promptFor("What is the person's last name?", chars);
 
-  var foundPerson = people.filter(function(person) {
+  let foundPerson = people.filter(function(person) {
     if (person.firstName.toLowerCase() === firstName.toLowerCase() && person.lastName.toLowerCase() === lastName.toLowerCase()) {
       return true;
     } else {
@@ -69,15 +71,15 @@ function searchByName(people) {
 function searchByTrait(people) { // need only 2 but can search up to 5
   let filteredPeople = people;
 
-  var heightYesNo = promptFor("Do you know the person's height? Yes or No.", yesNo);
-  var weightYesNo = promptFor("Do you know the person's weight? Yes or No.", yesNo);
-  var eyeColorsYesNo = promptFor("Do you know the person's eye color? Yes or No.", yesNo);
-  var occupationYesNo = promptFor("Do you know the person's occupation? Yes or No.", yesNo)
-  var ageYesNo = promptFor("Do you know the person's age? Yes or No.", yesNo);
+  let heightYesNo = promptFor("Do you know the person's height? Yes or No.", yesNo);
+  let weightYesNo = promptFor("Do you know the person's weight? Yes or No.", yesNo);
+  let eyeColorsYesNo = promptFor("Do you know the person's eye color? Yes or No.", yesNo);
+  let occupationYesNo = promptFor("Do you know the person's occupation? Yes or No.", yesNo)
+  let ageYesNo = promptFor("Do you know the person's age? Yes or No.", yesNo);
 
 
   if (eyeColorsYesNo == 'yes') {
-    var eyeColor = promptFor("What is the person's eye color?", nonInteger);
+    let eyeColor = promptFor("What is the person's eye color?", nonInteger);
     filteredPeople = filteredPeople.filter(function(person) {
       if (person.eyeColor == eyeColor) {
         return true;
@@ -88,7 +90,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
   }
 
   if (heightYesNo == 'yes') {
-    var height = promptFor("What is the person's height in inches?", integer);
+    let height = promptFor("What is the person's height in inches?", integer);
 
     filteredPeople = filteredPeople.filter(function(person) {
       if (person.height == height) {
@@ -100,7 +102,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
   }
 
   if (weightYesNo == 'yes') {
-    var weight = promptFor("What is the person's weight in pounds?", integer);
+    let weight = promptFor("What is the person's weight in pounds?", integer);
 
     filteredPeople = filteredPeople.filter(function(person) {
       if (person.weight == weight) {
@@ -112,7 +114,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
   }
 
   if (occupationYesNo == 'yes') {
-    var occupation = promptFor("What is the person's occupation?", nonInteger);
+    let occupation = promptFor("What is the person's occupation?", nonInteger);
 
     filteredPeople = filteredPeople.filter(function(person) {
       if (person.occupation == occupation) {
@@ -124,7 +126,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
   }
 
   if (ageYesNo == 'yes') {
-    var age = promptFor("What is the person's age?", integer);
+    let age = promptFor("What is the person's age?", integer);
 
     filteredPeople = filteredPeople.filter(function(person) {
       if (person.age == age) {
@@ -157,8 +159,9 @@ function displayPeople(people) {
 
 // function that prompts and validates user input
 function promptFor(question, valid) {
+	let response;
   do {
-    var response = prompt(question).trim();
+    response = prompt(question).trim();
   } while (!response || !valid(response));
   return response;
 }
