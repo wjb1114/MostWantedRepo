@@ -64,6 +64,7 @@ function mainMenu(person, people) {
       break;
     case "descendants":
       displayPeople(getDescendants(person, data));
+			return mainMenu(person, people);
       break;
     case "restart":
       app(people); // restart
@@ -246,6 +247,7 @@ function displayInfo(person, people) {
     spouseString + "\n" +
     "Age: " + person.age)
 
+		return mainMenu(person, people);
 }
 
 // displays parents, spouse, and children of selected person
@@ -288,6 +290,7 @@ function displayFamily(person, people) {
     spouseString + "\n" +
     childString
   )
+	return mainMenu(person, people);
 }
 
 // assigns age to object array based on current date
