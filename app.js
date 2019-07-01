@@ -10,13 +10,25 @@ function app(people) {
       mainMenu(checkSingleResult(foundPerson), data);
       break;
     case 'no':
-      // TODO: search by traits
-      foundPerson = searchByTrait(people);
-      mainMenu(checkSingleResult(foundPerson), data);
-      break;
-    default:
-      app(people); // restart app
-      break;
+      let secondarySearch = promptFor("Do you want to search by I.D number or traits? Enter 'ID' or 'traits'", chars).toLowerCase();
+      switch (secondarySearch) {
+        case 'ID':
+          foundPerson = searchByID(people);
+          mainMenu(checkSingleResult(foundPerson), data);
+          break;
+
+        case 'traits':
+          foundPerson = searchByTrait(people);
+          mainMenu(checkSingleResult(foundPerson), data);
+          break;
+
+        default:
+          app(people); // restart app
+          break;
+      }
+      default:
+        app(people); // restart app
+        break;
   }
 }
 
@@ -136,10 +148,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
       }
     });
   }
-
-
   return filteredPeople;
-
 }
 
 // alerts a list of people
@@ -178,23 +187,23 @@ function chars(input) {
 
 // helper function, ensures input is a number
 function integer(input) {
-  for( let i = 0; i < input.length; i ++){
-    if(Number.isNaN(parseInt(input[i]))){
-    return false;
-    }
-  }
-  return true;
-}
-// helper function, ensures input is not a number
-function nonInteger(input) {
-  for( let i = 0; i < input.length; i ++){
-    if(!Number.isNaN(parseInt(input[i]))){
-    return false;
+  for (let i = 0; i < input.length; i++) {
+    if (Number.isNaN(parseInt(input[i]))) {
+      return false;
     }
   }
   return true;
 }
 
+// helper function, ensures input is not a number
+function nonInteger(input) {
+  for (let i = 0; i < input.length; i++) {
+    if (!Number.isNaN(parseInt(input[i]))) {
+      return false;
+    }
+  }
+  return true;
+}
 
 // returns single object in array if array length is one, otherwise returns whole array or returns undefined if the array is empty
 function checkSingleResult(personArr) {
@@ -314,12 +323,12 @@ function getDescendants(person, people, foundDesc = []) {
 }
 
 function getSpouse(person, people) {
-	let spouseString = "Current Spouse: ";
+  let spouseString = "Current Spouse: ";
   let foundSpouse;
   if (person.currentSpouse === null) {
     spouseString += person.firstName + " " + person.lastName + " has no current spouse in the application data.";
   } else {
-    foundSpouse = people.filter(function(personSpouse) {
+    foundSpouse = people.filter(function (personSpouse) {
       if (personSpouse.id === person.currentSpouse) {
         return true;
       } else {
@@ -329,7 +338,7 @@ function getSpouse(person, people) {
     let spouseSingle = checkSingleResult(foundSpouse)
     spouseString += spouseSingle.firstName + " " + spouseSingle.lastName;
   }
-	return spouseString;
+  return spouseString;
 }
 
 getAge(data);
