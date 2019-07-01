@@ -86,8 +86,7 @@ function searchByName(people) {
     } else {
       return false;
     }
-  })
-  // TODO: find the person using the name they entered
+  });
   return foundPerson;
 }
 
@@ -385,6 +384,7 @@ function getParents(person, people) {
   return parentsString;
 }
 
+// find person object that ID matching user input
 function searchByID(people) {
   let idNumber = promptFor("What is the person's ID number?", integer);
 
