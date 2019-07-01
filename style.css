@@ -1,0 +1,21 @@
+.button-holder {
+	text-align: center;
+	padding-top: 100px;
+	padding-bottom: 500px;
+}
+
+.header-main {
+	text-align: center;
+	margin-top: 15px;
+	margin-bottom: 150px;
+}
+
+button {
+	padding-left: 30px;
+	padding-right: 30px;
+	font-family: 'Cousine', monospace;
+}
+
+h1 {
+	font-family: 'Cousine', monospace;
+}
