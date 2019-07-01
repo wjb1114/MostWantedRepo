@@ -12,7 +12,7 @@ function app(people) {
     case 'no':
       let secondarySearch = promptFor("Do you want to search by I.D number or traits? Enter 'ID' or 'traits'", chars).toLowerCase();
       switch (secondarySearch) {
-        case 'ID':
+        case 'id':
           foundPerson = searchByID(people);
           mainMenu(checkSingleResult(foundPerson), data);
           break;
@@ -26,6 +26,7 @@ function app(people) {
           app(people); // restart app
           break;
       }
+			break;
       default:
         app(people); // restart app
         break;
@@ -40,7 +41,18 @@ function mainMenu(person, people) {
   }
   if (Array.isArray(person)) {
     displayPeople(person);
-    return app(people);
+		person = searchByID(people);
+		if (person.length > 1) {
+			alert("More than one result. Returning to main menu.");
+			return app(people);
+		}
+		else if (person.length === 0) {
+			alert("Could not find that individual.");
+			return app(people);
+		}
+		else {
+			person = checkSingleResult(person);
+		}
   }
   let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
   switch (displayOption) {
