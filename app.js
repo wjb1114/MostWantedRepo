@@ -93,7 +93,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
   if (eyeColorsYesNo == 'yes') {
     let eyeColor = promptFor("What is the person's eye color?", nonInteger);
     filteredPeople = filteredPeople.filter(function (person) {
-      if (person.eyeColor == eyeColor) {
+      if (person.eyeColor.toLowerCase() == eyeColor.toLowerCase()) {
         return true;
       } else {
         return false;
@@ -129,7 +129,7 @@ function searchByTrait(people) { // need only 2 but can search up to 5
     let occupation = promptFor("What is the person's occupation?", nonInteger);
 
     filteredPeople = filteredPeople.filter(function (person) {
-      if (person.occupation == occupation) {
+      if (person.occupation.toLowerCase() == occupation.toLowerCase()) {
         return true;
       } else {
         return false;
@@ -345,11 +345,11 @@ getAge(data);
 
 // function to recieve parents based on person searched
 function getParents(person, people) {
-  let parentsString = "Parent(s):";
+  let parentsString = "Parent(s): ";
   if (person.parents.length === 0) {
     parentsString += " No parents found";
   } else {
-    let foundParents;
+    let foundParent;
     let parents = [];
     for (let i = 0; i < person.parents.length; i++) {
       foundParent = people.filter(function (personParent) {
