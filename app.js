@@ -363,3 +363,16 @@ function getParents(person, people) {
   }
   return parentsString;
 }
+
+function searchByID(people) {
+  let idNumber = promptFor("What is the person's ID number?", integer);
+
+  let foundPerson = people.filter(function (person) {
+    if (person.id == idNumber) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+  return foundPerson;
+}
